@@ -78,7 +78,7 @@ void DisplayReconfigurationCallback(CGDirectDisplayID cg_id,
 				if(mainModeNum == j)
 				{
 					mainItem = item;
-					[item setState: NSOnState];	
+					[item setState: NSControlStateValueOn];
 				}
 				[displayMenuItems addObject: item];
 				[item release];
@@ -162,7 +162,7 @@ void DisplayReconfigurationCallback(CGDirectDisplayID cg_id,
 				if(mainModeNum == j)
 				{
 					mainItem = item;
-					[item setState: NSOnState];	
+					[item setState: NSControlStateValueOn];
 				}
 				[displayMenuItems addObject: item];
 				[item release];
@@ -248,13 +248,14 @@ void DisplayReconfigurationCallback(CGDirectDisplayID cg_id,
 	statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength: NSSquareStatusItemLength] retain];
 	
 	NSImage* statusImage = [NSImage imageNamed: @"StatusIcon"];
-	[statusItem setImage: statusImage];
-	[statusItem setHighlightMode: YES];
+	statusItem.button.image = statusImage;
+	[statusItem.button.cell setHighlightsBy: NSContentsCellMask];
 
-  BOOL supportsDarkMenu = !(floor(NSAppKitVersionNumber) < 1343);  // NSAppKitVersionNumber10_10
-  if (supportsDarkMenu) {
-    [[statusItem image] setTemplate:YES];
-  }
+	BOOL supportsDarkMenu = !(floor(NSAppKitVersionNumber) < 1343);
+	if (supportsDarkMenu) {
+		// [[statusItem image] setTemplate:YES];
+		[statusItem.button.image setTemplate: YES];
+  	}
 
 	[self refreshStatusMenu];
 
