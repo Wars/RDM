@@ -9,9 +9,13 @@
 #import "ResMenuItem.h"
 
 
-
-
-
+void DisplayReconfigurationCallback(CGDirectDisplayID cg_id,
+		CGDisplayChangeSummaryFlags change_flags,
+		void *app_delegate)
+{
+	SRApplicationDelegate *appDelegate = (SRApplicationDelegate*)app_delegate;
+	[appDelegate refreshStatusMenu];
+}
 
 @implementation SRApplicationDelegate
 
@@ -129,11 +133,11 @@
 			{
 				if([mainItem scale] == 2.0f)
 				{
-					title = [NSString stringWithFormat: @"%d × %d ⚡️️", [mainItem width], [mainItem height]];
+					title = [NSString stringWithFormat: @"⚡️ %d × %d — %d:%d", [mainItem width], [mainItem height], [mainItem _w], [mainItem _h]];
 				}
 				else
 				{
-					title = [NSString stringWithFormat: @"%d × %d", [mainItem width], [mainItem height]];
+					title = [NSString stringWithFormat: @"%d × %d — %d:%d", [mainItem width], [mainItem height], [mainItem _w], [mainItem _h]];
 				}
 			}
 			
@@ -253,7 +257,8 @@
   }
 
 	[self refreshStatusMenu];
-	
+
+	CGDisplayRegisterReconfigurationCallback(DisplayReconfigurationCallback, self);
 }
 
 @end
