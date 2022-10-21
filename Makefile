@@ -22,7 +22,7 @@ RDM.app: SetResX Resources Info.plist monitor.icns
 
 
 SetResX: main.o SRApplicationDelegate.o ResMenuItem.o cmdline.o utils.o 
-	$(CC) $^ -o $@ $(ARCH_FLAGS) -framework Foundation -framework ApplicationServices -framework AppKit 
+	$(CC) $^ -o $@ -framework Foundation -framework ApplicationServices -framework AppKit
 
 
 clean:
