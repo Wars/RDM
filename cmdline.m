@@ -17,6 +17,7 @@ int cmdline_main(int argc, char * const*argv)
  	{
 		int width = 0;
 		int height = 0;
+		int freq = 0;
 		CGFloat scale = 0.0f;
 		int bitRes = 0;
 		int displayNo = -1;
@@ -43,6 +44,9 @@ int cmdline_main(int argc, char * const*argv)
 					break;
 				case 'h':
 					height = atoi(optarg);
+					break;
+				case 'f':
+					freq = atoi(optarg);
 					break;
 				case 's':
 					scale = atof(optarg);
@@ -120,6 +124,8 @@ int cmdline_main(int argc, char * const*argv)
 					continue;
 				if(height && mode.derived.height != height)
 					continue;
+				if(freq && mode.derived.freq != freq)
+					continue;
 				int mBitres = (mode.derived.depth == 4) ? 32 : 16;
 				if(bitRes && mBitres != bitRes)
 					continue;
@@ -190,6 +196,10 @@ int cmdline_main(int argc, char * const*argv)
 				width = mode.derived.width;
 				height = mode.derived.height;
 			}
+			if (!freq)
+			{
+				freq = mode.derived.freq;
+			}
 			if(!scale)
 			{
 				scale = mode.derived.density;
@@ -215,6 +225,8 @@ int cmdline_main(int argc, char * const*argv)
 				if(width && mode.derived.width != width)
 					continue;
 				if(height && mode.derived.height != height)
+					continue;
+				if(freq && mode.derived.freq != freq)
 					continue;
 				int mBitres = (mode.derived.depth == 4) ? 32 : 16;
 				if(bitRes && mBitres != bitRes)
