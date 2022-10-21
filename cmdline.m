@@ -1,7 +1,4 @@
-extern "C"
-{
 #import <getopt.h>
-}
 
 #import <Foundation/Foundation.h>
 
