@@ -23,7 +23,7 @@ jobs:
           make
 
       - name: Upload build artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: RDM-macos-build
           path: ./RDM.app
