@@ -25,6 +25,10 @@ jobs:
           make clean
           make ARCH=${{ matrix.arch }}
 
+      - name: Remove quarantine attribute
+        run: |
+          xattr -r -d com.apple.quarantine ./RDM.app || true
+
       - name: Package RDM.app
         run: |
           mkdir -p build/${{ matrix.arch }}
