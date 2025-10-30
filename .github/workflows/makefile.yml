@@ -35,3 +35,22 @@ jobs:
         with:
           name: RDM-${{ matrix.arch }}
           path: build/${{ matrix.arch }}/RDM-${{ matrix.arch }}.app
+
+  merge-and-release:
+    runs-on: macos-latest
+    needs: build-macos
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+
+      - name: Upload to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/RDM-arm64/RDM-arm64.app
+            artifacts/RDM-x86_64/RDM-x86_64.app
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
