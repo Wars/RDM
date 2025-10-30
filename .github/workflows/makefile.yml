@@ -47,12 +47,14 @@ jobs:
         with:
           path: ./artifacts
 
+     - name: List downloaded artifacts
+       run: |
+         ls -R ./artifacts
+
       - name: Upload to GitHub Release
         if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            artifacts/RDM-arm64/RDM-arm64.zip
-            artifacts/RDM-x86_64/RDM-x86_64.zip
+          files: artifacts/RDM-arm64/RDM-arm64.zip,artifacts/RDM-x86_64/RDM-x86_64.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
