@@ -1,18 +1,29 @@
-name: Makefile CI
+name: Build
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - main
+      - 'release/*'
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
+  build-macos:
+    runs-on: macos-latest
     steps:
-    - uses: actions/checkout@v4
+      - name: Check out code
+        uses: actions/checkout@v4
 
-    - name: Install dependencies
-      run: make
+      - name: Build with make
+        run: |
+          make clean
+          make
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: RDM-macos-build
+          path: ./RDM.app
