@@ -29,6 +29,8 @@ jobs:
         run: |
           mkdir -p build/${{ matrix.arch }}
           cp -R ./RDM.app build/${{ matrix.arch }}/RDM-${{ matrix.arch }}.app
+          cd build/${{ matrix.arch }}
+          zip -r RDM-${{ matrix.arch }}.zip RDM-${{ matrix.arch }}.app
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -50,7 +52,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            artifacts/RDM-arm64/RDM-arm64.app
-            artifacts/RDM-x86_64/RDM-x86_64.app
+            artifacts/RDM-arm64/RDM-arm64.zip
+            artifacts/RDM-x86_64/RDM-x86_64.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
