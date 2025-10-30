@@ -1,29 +1,37 @@
-name: Build
+name: Build RDM
 
 on:
   push:
     branches:
       - main
       - 'release/*'
-  pull_request:
-    branches:
-      - main
+    tags:
+      - 'v*'
   workflow_dispatch:
 
 jobs:
   build-macos:
     runs-on: macos-latest
+    strategy:
+      matrix:
+        arch: [arm64, x86_64]
+
     steps:
-      - name: Check out code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build with make
+      - name: Build RDM for ${{ matrix.arch }}
         run: |
           make clean
-          make
+          make ARCH=${{ matrix.arch }}
 
-      - name: Upload build artifact
+      - name: Package RDM.app
+        run: |
+          mkdir -p build/${{ matrix.arch }}
+          cp -R ./RDM.app build/${{ matrix.arch }}/RDM-${{ matrix.arch }}.app
+
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: RDM-macos-build
-          path: ./RDM.app
+          name: RDM-${{ matrix.arch }}
+          path: build/${{ matrix.arch }}/RDM-${{ matrix.arch }}.app
