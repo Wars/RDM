@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: RDM-${{ matrix.arch }}
-          path: build/${{ matrix.arch }}/RDM-${{ matrix.arch }}.app
+          path: build/${{ matrix.arch }}/RDM-${{ matrix.arch }}.zip
 
   merge-and-release:
     runs-on: macos-latest
